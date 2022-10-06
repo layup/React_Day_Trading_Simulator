@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react'
-import Overview from './components/Overview'
-import PerformanceChart from './components/PerformanceChart'
-import Portfolio from './components/Portfolio'
+import sample_data from './../sample_data.csv';
+
+
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 import * as d3 from 'd3'
 
@@ -87,31 +89,60 @@ function Dashboard() {
 
 
     return (
-        <div className='col bg-emerald-700 bg-opacity-20 w-screen h-screen p-6'>
-            <div className='flex h-20 text-zinc-800 '>
-                <h1 className='text-3xl basis-3/4 m-auto '>Dashboard</h1>
+        <div className='col bg-emerald-700 bg-opacity-20 w-screen h-screen px-6 py-2'>
+            <div className='flex h-16 py-1 text-zinc-800 bg-orange-100s'>
+                <h1 className='text-3xl basis-3/6 m-auto bg-red-100'>Dashboard</h1>
+
+                <div className='bg-orange-200 basis-1/2'>
+                     <p>Scrolling stocks</p>
+                </div>
                 
-                <div className='flex items-center basis-1/4 justify-end'>
+                <div className='flex items-center basis-1/4 justify-end  child:mx-2'>
+
+                    <div className='p-2 border-2 rounded-full text-center border-zinc-800'>
+                        <button>
+                            <SearchOutlinedIcon className='text-zinc-800'/>
+                        </button>
+                    </div>
+
+                    <div className='p-2 border-2 rounded-full text-center border-zinc-800'>
+                        <button>
+                            <NotificationsOutlinedIcon className='text-zinc-800'/>
+                        </button>
+                    </div>
+
                     <img 
-                        className='rounded-full w-14 h-14'
+                        className='rounded-full w-12 h-12'
                         src={userInfo.profile_pic}
                         alt='Tommy Lay'
                     />
-                    <h3 className='p-2 font-semibold'>{userInfo.username}</h3>
+                    
                 </div>
             </div>
 
-            <div className='bg-white rounded-xl h-3/6 text-zinc-800'>
-                <div className='p-2 '>
+            <div className=' rounded-xl h-4/6 text-zinc-800 flex'>
+                <div className='p-2 basis-5/6 bg-white mr-4 rounded-lg'>
                     <p>Investment Perforance</p>       
                     <div id="pgraphs"></div> 
                     <div id="BarChart"></div> 
                 </div>
 
+                <div className='bg-white basis-1/6 rounded-lg p-2'>
+                    <p className='text-sm'>Account Balance</p>
+                    <h1 className='text-5xl'>$10,000</h1>
+                
+                </div>
+
             </div>
 
-            <div className='bg-white h-2/6'>
-                <p>Hello World</p>
+            <div className='bg-white h-1/6 mt-3 rounded-lg'>
+                <div className='p-2'>
+                    <p>Holdings</p>
+                    <p>Stocks</p>
+                    <p>Bonds</p>
+                    <p>Crypto</p>
+                    <p>ETFs</p>
+                </div>
             </div>
         </div>
     )
