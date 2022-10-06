@@ -1,9 +1,14 @@
-import React, {useEffect} from 'react'
-import sample_data from './../sample_data.csv';
+import React, {useEffect, useState, setState} from 'react'
+import sample_data from './../demo_data/sample_data.csv';
 
-
+import Ticker, { FinancialTicker, NewsTicker } from 'nice-react-ticker';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
+import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 
 import * as d3 from 'd3'
 
@@ -11,11 +16,47 @@ import './charts.css'
 
 const userInfo = {
     'username': 'Tommy Layup',
-    'profile_pic':'https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg?size=120x'
+    'profile_pic':'https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg?size=120x',
+    'balance': 10211.76, 
+    'balancePercentage': 3.32,
+    'dailyChange': 211.76, 
 }
 
 
+
 function Dashboard() {
+
+    const [barChart, setbarChart] = useState(true);
+    const [chartDaysView, setChartDaysView] = useState('1d')
+    
+    
+    const toggleBarChart = () => {
+        setbarChart(!barChart)
+    }
+
+    const toggleDay1d = () => {
+        setChartDaysView('1d')
+    }
+
+    const toggleDay1w = () => {
+        setChartDaysView('1w')
+    }
+
+    const toggleDay1m = () => {
+        setChartDaysView('1m')
+    }
+
+    const toggleDay6m = () => {
+        setChartDaysView('6m')
+    }
+
+    const toggleDay1y = () => {
+        setChartDaysView('1y')
+    }
+
+    const toggleDayAll = () => {
+        setChartDaysView('all')
+    }
 
     useEffect(() => {
 
@@ -89,21 +130,27 @@ function Dashboard() {
 
 
     return (
-        <div className='col bg-emerald-700 bg-opacity-20 w-screen h-screen px-6 py-2'>
-            <div className='flex h-16 py-1 text-zinc-800 bg-orange-100s'>
-                <h1 className='text-3xl basis-3/6 m-auto bg-red-100'>Dashboard</h1>
+        <div className='col bg-gray-400 bg-opacity-30 w-screen h-screen px-6 py-2'>
+            <div className='flex h-14 py-1 text-zinc-800 bg-orange-100s'>
+                {/*<h1 className='text-3xl basis-1/4 m-auto bg-red-100'>Dashboard</h1>*/}
 
-                <div className='bg-orange-200 basis-1/2'>
-                     <p>Scrolling stocks</p>
+                <div className='basis-1/4 m-auto '>
+                    <forum className='flex'>
+                        <button className='bg-white rounded-l-lg p-2 shadow-md'>
+                            <SearchOutlinedIcon className=''/>
+                        </button>
+                        <input type='search' placeholder='search' className='rounded-r-lg p-2 focus:outline-none shadow-md' /> 
+                    </forum>
+                </div>
+
+                <div className=' basis-5/6 flex justify-center mx-4 items-center'>
+                    <div className='p-2 bg-blue-200 w-full'>
+                        <p>Bitcoin BTC $29,383.32 -2.45%</p>
+                    </div>
+
                 </div>
                 
-                <div className='flex items-center basis-1/4 justify-end  child:mx-2'>
-
-                    <div className='p-2 border-2 rounded-full text-center border-zinc-800'>
-                        <button>
-                            <SearchOutlinedIcon className='text-zinc-800'/>
-                        </button>
-                    </div>
+                <div className='flex items-center basis-1/4 justify-end  child:mx-2 '>
 
                     <div className='p-2 border-2 rounded-full text-center border-zinc-800'>
                         <button>
@@ -116,26 +163,139 @@ function Dashboard() {
                         src={userInfo.profile_pic}
                         alt='Tommy Lay'
                     />
+                    <h1 className='pr-2 font-medium'>Tommy Lay </h1>
                     
                 </div>
             </div>
 
             <div className=' rounded-xl h-4/6 text-zinc-800 flex'>
-                <div className='p-2 basis-5/6 bg-white mr-4 rounded-lg'>
-                    <p>Investment Perforance</p>       
-                    <div id="pgraphs"></div> 
-                    <div id="BarChart"></div> 
+                <div className='p-4 basis-5/6 bg-white mr-4 rounded-lg shadow-md'>
+                    <div className='flex  justify-between '>
+                        <div className='flex flex-col'>
+                            <h2 className='text-md font-medium text-zinc-600'>Investment Perforance</h2>  
+                            <p className='text-3xl'>${userInfo.balance.toLocaleString()}</p>
+                        </div>
+
+                        
+                        <div className='flex child:mx-2 items-center'>
+                        
+                            <div className=''>
+                                <ul className='flex rounded-md bg-zinc-200 p-1 [&>li>button]:p-1 w-full '>
+                                    <li>
+                                        {barChart? 
+                                            <button className='cursor-default bg-white rounded-md '><BarChartOutlinedIcon/></button>:
+                                            <button onClick={toggleBarChart} ><BarChartOutlinedIcon /></button>
+                                        }
+                                    </li>
+                                    <li>
+                                        {barChart? 
+                                            <button onClick={toggleBarChart}><ShowChartOutlinedIcon/></button>:
+                                            <button className='cursos-defaut bg-white rounded-md'><ShowChartOutlinedIcon/></button>
+
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div className=''>
+                                <ul className='flex p-1 bg-zinc-200 rounded-md text-zinc-400 font-bold [&>li>button]:p-1 w-full [&>li>button]:w-10 '>
+                                        <li>
+                                            {chartDaysView === '1d' ? 
+                                                <button className='cursor-default bg-white rounded-md text-zinc-900'>1d</button>:
+                                                <button onClick={toggleDay1d} >1d</button>
+                                            }
+                                        </li>
+                                        <li>
+                                            {chartDaysView === '1w' ? 
+                                                <button className='cursor-default bg-white rounded-md text-zinc-900'>1w</button>:
+                                                <button onClick={toggleDay1w} >1w</button>
+                                            }
+                                        </li>
+                                        <li>
+                                            {chartDaysView === '1m' ? 
+                                                <button className='cursor-default bg-white rounded-md text-zinc-900'>1m</button>:
+                                                <button onClick={toggleDay1m} >1m</button>
+                                            }                                       
+                                        </li>
+                                        <li>
+                                            {chartDaysView === '6m' ? 
+                                                <button className='cursor-default bg-white rounded-md  text-zinc-900'>6m</button>:
+                                                <button onClick={toggleDay6m} >6m</button>
+                                            }   
+                                        </li>
+                                        <li>
+                                            {chartDaysView === '1y' ? 
+                                                <button className='cursor-default bg-white rounded-md text-zinc-900'>1y</button>:
+                                                <button onClick={toggleDay1y} >1y</button>
+                                            }   
+                                        </li>
+                                        <li>
+                                            {chartDaysView === 'all' ? 
+                                                <button className='cursor-default bg-white rounded-md text-zinc-900'>All</button>:
+                                                <button onClick={toggleDayAll} >All</button>
+                                            }
+
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='Chart bg-orange-200 h-5/6'>
+                        <p>Hello World</p>
+                    
+                    </div>
+  
+                    
                 </div>
 
-                <div className='bg-white basis-1/6 rounded-lg p-2'>
+                <div className='bg-white basis-1/6 rounded-lg p-2 shadow-md'>
                     <p className='text-sm'>Account Balance</p>
-                    <h1 className='text-5xl'>$10,000</h1>
+                    <div className='flex'>
+                        <h1 className='text-5xl'>${userInfo.balance.toLocaleString()}</h1>
+                        {userInfo.balancePercentage > 0 ? 
+                            <div className='flex bg-green-300 h-fit px-1 rounded-lg text-center child:text-green-600 bg-opacity-50'>
+                                <ArrowDropUpOutlinedIcon/>
+                                <p>
+                                    {userInfo.balancePercentage}%
+                                </p>
+                            </div>
+                        : 
+                            <div className='flex bg-red-300 h-fit px-1 rounded-lg text-center child:text-red-600 bg-opacity-50'>
+                                <ArrowDropDownOutlinedIcon/>
+                                <p>
+                                    {Math.abs(userInfo.balancePercentage)}%
+                                </p>
+                            </div>
+                        }
+                    </div>
+                    <div className='py-4 flex justify-between text-center'>
+                        <div>
+                            <h3 className='text-sm'>Todays Change</h3>
+                            {userInfo.dailyChange > 0 ? 
+                                <p className='text-green-500 text-2xl '>+{userInfo.dailyChange}</p>
+                            :
+                                <p className='text-red-600 text-med'>-{userInfo.dailyChange}</p>
+                            }
+                        </div>
+                        <div>
+                            <h3 className='text-sm'>Annual Change</h3>
+                            {userInfo.balancePercentage > 0 ? 
+                                <p className='text-green-500 text-2xl '>+{userInfo.balancePercentage}%</p>
+                            :
+                                <p className='text-red-600 text-med'>-{userInfo.balancePercentage}%</p>
+                            }
+                        </div>
+
+
+
+                    </div>
                 
                 </div>
 
             </div>
 
-            <div className='bg-white h-1/6 mt-3 rounded-lg'>
+            <div className='bg-white h-1/6 mt-3 rounded-lg shadow-md'>
                 <div className='p-2'>
                     <p>Holdings</p>
                     <p>Stocks</p>
