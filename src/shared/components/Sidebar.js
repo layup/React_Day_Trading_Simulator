@@ -16,7 +16,7 @@ function Sidebar() {
     <div className='h-screen sticky top-0 w-1/5 md:w-1/6'>
         <div className='bg-white h-full flex flex-col py-4'>
             <div className='flex flex-col justify-center  p-4 text-center '>
-              <img src={logo} alt='logo' className='w-16  mx-auto py-2'/>
+              <img src={logo} alt='logo' className='w-16  mx-auto'/>
               <h1 className='basis-1/12 font-extrabold text-transparent text-2xl bg-clip-text bg-green-700 '>Leaf Simulator</h1>
               <p className='text-sm text-zinc-400 font-thin'>We Create Futures</p>
             </div>

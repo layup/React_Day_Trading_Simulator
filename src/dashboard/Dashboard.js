@@ -295,13 +295,19 @@ function Dashboard() {
 
             </div>
 
-            <div className='bg-white h-1/6 mt-3 rounded-lg shadow-md'>
-                <div className='p-2'>
-                    <p>Holdings</p>
-                    <p>Stocks</p>
-                    <p>Bonds</p>
-                    <p>Crypto</p>
-                    <p>ETFs</p>
+            <div className=' h-1/6 mt-3 rounded-lg '>
+                <div className=' flex h-full child:rounded-md  child:p-2 child:shadow-md'>
+                    <div className='bg-white basis-1/3 mr-4'>
+                            <h1>Top Earners</h1>
+                    </div>
+
+                    <div className='bg-white basis-1/3 mr-4'>
+                        <h1>Recent Transactions</h1>
+                    </div>
+
+                    <div className='bg-white basis-1/3'>
+                            <h1>News</h1>
+                    </div>
                 </div>
             </div>
         </div>
