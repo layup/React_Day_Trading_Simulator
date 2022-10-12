@@ -1,5 +1,6 @@
 import React, {useEffect, useState, setState} from 'react'
 import sample_data from './../demo_data/sample_data.csv';
+import MSFT_data from './../demo_data/MSFT.tsv'
 
 import Ticker, { FinancialTicker, NewsTicker } from 'nice-react-ticker';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
@@ -9,6 +10,9 @@ import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
+
+
+import MainChart from './components/MainChart';
 
 import * as d3 from 'd3'
 
@@ -22,6 +26,17 @@ const userInfo = {
     'dailyChange': 211.76, 
 }
 
+const userStockHistory = {
+
+}
+
+const stocks = [
+    {
+        "name":"MSN", 
+        "shares":"12",
+        "avg_price":"25" 
+    }
+]
 
 
 function Dashboard() {
@@ -57,6 +72,9 @@ function Dashboard() {
     const toggleDayAll = () => {
         setChartDaysView('all')
     }
+
+
+
 
     useEffect(() => {
 
@@ -131,15 +149,15 @@ function Dashboard() {
 
     return (
         <div className='col bg-gray-400 bg-opacity-30 w-screen h-screen px-6 py-2'>
-            <div className='flex h-14 py-1 text-zinc-800 bg-orange-100s'>
+            <div className='flex h-14 py-1 my-1 text-zinc-800 bg-orange-100s'>
                 {/*<h1 className='text-3xl basis-1/4 m-auto bg-red-100'>Dashboard</h1>*/}
 
                 <div className='basis-1/4 m-auto '>
-                    <forum className='flex'>
+                    <forum className='flex text-zinc-600'>
                         <button className='bg-white rounded-l-lg p-2 shadow-md'>
                             <SearchOutlinedIcon className=''/>
                         </button>
-                        <input type='search' placeholder='search' className='rounded-r-lg p-2 focus:outline-none shadow-md' /> 
+                        <input type='search' placeholder='search' className='rounded-r-lg p-2 focus:outline-none shadow-md ' /> 
                     </forum>
                 </div>
 
@@ -158,13 +176,16 @@ function Dashboard() {
                         </button>
                     </div>
 
-                    <img 
-                        className='rounded-full w-12 h-12'
-                        src={userInfo.profile_pic}
-                        alt='Tommy Lay'
-                    />
-                    <h1 className='pr-2 font-medium'>Tommy Lay </h1>
+                    <div className='flex items-center hover:cursor-pointer hover:bg-white rounded-3xl pr-2'>
+                        <img 
+                            className='rounded-full w-12 h-12'
+                            src={userInfo.profile_pic}
+                            alt='Tommy Lay'
+                        />
+                        <h1 className='p-2 font-medium'>Tommy Lay </h1>
                     
+                    </div>
+
                 </div>
             </div>
 
@@ -242,8 +263,8 @@ function Dashboard() {
                     </div>
 
                     <div className='Chart bg-orange-200 h-5/6'>
-                        <p>Hello World</p>
-                    
+                        
+                        <MainChart/>
                     </div>
   
                     
