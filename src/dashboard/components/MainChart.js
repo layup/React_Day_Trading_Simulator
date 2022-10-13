@@ -1,75 +1,68 @@
-import React, { PureComponent } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useState } from 'react'
+import { AreaChart, ResponsiveContainer, Area, XAxis, YAxis,Tooltip } from 'recharts'
+import { mockHistoricalData } from '../../demo_data/mock'
+import { chartConfig } from '../../utiles/config'
+import { convertUnixTimestampToDate } from '../../utiles/Helper/Helper'
+import ChartFilter from './ChartFilter'
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
 
-export default class MainChart extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/simple-area-chart-4ujxw';
+import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
+import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 
-  render() {
-    return (
-      <div className='p-10 w-full h-full'>
-        <AreaChart
-          width={1000}
-          height={400}
-          data={data}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-        </AreaChart>
-      </div>
-    );
+
+const MainChart = () => {
+
+  const [data, setData] = useState(mockHistoricalData)
+  const [filter, setFilter] = useState('1W')
+
+  const formatData = () => {
+    return data.c.map((item, index) => {
+      return {
+        value: item.toFixed(2),
+        date: convertUnixTimestampToDate(data.t[index]), 
+      }
+    })
   }
+
+  return (
+    <div className='h-5/6'>
+      <ul className="flex top-100 right-96 z-40 absolute">
+      {Object.keys(chartConfig).map((item) => (
+        <li key={item}>
+          <ChartFilter
+            text={item}
+            active={filter === item}
+            onClick={() => {
+              setFilter(item);
+            }}
+          />
+        </li>
+        ))}
+      </ul>
+      <ResponsiveContainer>
+        <AreaChart data={formatData(data)} width={730} height={250}>\
+          <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <Area 
+            type='monotone' 
+            dataKey="value"
+            stroke="#15803d" 
+            fillOpacity={1}
+            strokeWidth={0.5}
+            fill="url(#colorUv)"
+           
+          />
+          <Tooltip />
+          <XAxis dataKey={"date"} />
+          <YAxis domain={['dataMin', 'dataMax']} />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  )
 }
+
+export default MainChart
