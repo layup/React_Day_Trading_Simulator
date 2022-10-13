@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { AreaChart, ResponsiveContainer, Area, XAxis, YAxis,Tooltip } from 'recharts'
-import { mockHistoricalData } from '../../demo_data/mock'
-import { chartConfig } from '../../utiles/config'
-import { convertUnixTimestampToDate } from '../../utiles/Helper/Helper'
-import ChartFilter from './ChartFilter'
 
+import { portfolioValue } from '../../demo_data/mock'
+import { chartConfig } from '../../utiles/config'
+import { convertUnixTimestampToDate, convertDateToUnixTimestamp, createDate} from '../../utiles/Helper/Helper'
+import { fetchHistoricalData } from '../../utiles/API/stock-api'
+
+import ChartFilter from './ChartFilter'
+import StockContext from '../../context/StockContext'
 
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
@@ -12,21 +15,65 @@ import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 
 const MainChart = () => {
 
-  const [data, setData] = useState(mockHistoricalData)
+  const [data, setData] = useState([])
   const [filter, setFilter] = useState('1W')
 
-  const formatData = () => {
+  let min, max; 
+
+  const {stockSymbol} = useContext(StockContext);   
+
+  const formatData = (data) => {
     return data.c.map((item, index) => {
       return {
-        value: item.toFixed(2),
-        date: convertUnixTimestampToDate(data.t[index]), 
+        value: item.toFixed(3),
+        date: convertUnixTimestampToDate(data.t[index]),
+      };
+    });
+  };
+
+  useEffect(() => {
+    const getDateRange = () => {
+      const { days, weeks, months, years } = chartConfig[filter];
+
+      const endDate = new Date();
+      const startDate = createDate(endDate, -days, -weeks, -months, -years);
+
+      const startTimestampUnix = convertDateToUnixTimestamp(startDate);
+      const endTimestampUnix = convertDateToUnixTimestamp(endDate);
+      return { startTimestampUnix, endTimestampUnix };
+  };
+
+    const updateChartData = async () => {
+      try {
+        const { startTimestampUnix, endTimestampUnix } = getDateRange();
+        const resolution = chartConfig[filter].resolution;
+        const result = await fetchHistoricalData(
+          stockSymbol,
+          resolution,
+          startTimestampUnix,
+          endTimestampUnix
+        );
+        setData(formatData(result));
+      } catch (error) {
+        setData([]);
+        console.log(error);
       }
-    })
-  }
+    };
+
+    console.log('UPDATING ATTEMPT')  
+
+    updateChartData();    
+    let min = Math.min(...data.map(item => item.rest))
+    let result = data.filter(item => item.rest === min)
+    console.log(min)
+
+    
+  }, [stockSymbol, filter]);
+
 
   return (
-    <div className='h-5/6'>
-      <ul className="flex top-100 right-96 z-40 absolute">
+    <div className='h-96 '>
+      <ul className="flex flex-end ">
       {Object.keys(chartConfig).map((item) => (
         <li key={item}>
           <ChartFilter
@@ -40,7 +87,7 @@ const MainChart = () => {
         ))}
       </ul>
       <ResponsiveContainer>
-        <AreaChart data={formatData(data)} width={730} height={250}>\
+        <AreaChart data={data} width={730} height={250}>\
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
@@ -48,7 +95,7 @@ const MainChart = () => {
             </linearGradient>
           </defs>
           <Area 
-            type='monotone' 
+            type='temperature' 
             dataKey="value"
             stroke="#15803d" 
             fillOpacity={1}
@@ -57,8 +104,8 @@ const MainChart = () => {
            
           />
           <Tooltip />
-          <XAxis dataKey={"date"} />
-          <YAxis domain={['dataMin', 'dataMax']} />
+          <XAxis dataKey={"date"}/>
+          <YAxis domain={['dataMin' , 'dataMax']}  />
         </AreaChart>
       </ResponsiveContainer>
     </div>

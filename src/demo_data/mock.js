@@ -5,32 +5,30 @@ export const mockSearchResults = {
         "description": "APPLE INC",
         "displaySymbol": "AAPL",
         "symbol": "AAPL",
-        "type": "Common Stock"
+        "type": "Common Stock",
+        "price": 200
       },
       {
         "description": "APPLE INC",
         "displaySymbol": "AAPL.SW",
         "symbol": "AAPL.SW",
-        "type": "Common Stock"
+        "type": "Common Stock",
+        "price": 256
       },
       {
         "description": "APPLE INC",
         "displaySymbol": "APC.BE",
         "symbol": "APC.BE",
-        "type": "Common Stock"
+        "type": "Common Stock",
+        "price": 212
       },
       {
         "description": "APPLE INC",
         "displaySymbol": "APC.DE",
         "symbol": "APC.DE",
-        "type": "Common Stock"
+        "type": "Common Stock",
+        "price": 202
       },
-      {
-        "description": "APPLE INC",
-        "displaySymbol": "APC.DE",
-        "symbol": "APC.DE",
-        "type": "Common Stock"
-      }
 
     ]
 }
@@ -94,7 +92,23 @@ export const mockHistoricalData = {
 }
 
 export const portfolioValue = {
-    '2022-01-01': [
-        
+    'c': [
+      10000, 
+      10107.21,
+      10152.35, 
+      10211.77, 
+      10231.26,
+      10199.85, 
+      10211.75
+
+    ], 
+    't': [
+      1648870961,
+      1648957361, 
+      1649043761,
+      1649130161, 
+      1649216561,
+      1649302961,
+      1649389361
     ]
 }

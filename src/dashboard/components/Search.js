@@ -5,19 +5,36 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import SearchResults from './SearchResults';
 
+import { searchSymbols } from '../../utiles/API/stock-api';
+
 const Search = () => {
+    
+
 
     const [input, setInput] = useState("")
-    const [bestMatches, setBestMatches] = useState(mockSearchResults.result)
+    const [bestMatches, setBestMatches] = useState([])
 
     const clear = () => {
         setInput(""); 
         setBestMatches([]); 
     }
 
-    const updateBestMaches =() => {
-        setBestMatches(mockSearchResults.result); 
-        console.log(bestMatches)
+    const updateBestMaches = async () => {       
+        try {
+            if(input) {
+                const searchResults = await searchSymbols(input);
+                const result = searchResults.result.filter((item, index) => {
+                        return item.type === "Common Stock"
+                });
+                setBestMatches(result)
+            }
+
+        } catch (error) {
+            setBestMatches([])
+            //console.log(error);
+            console.log('Error in Search') 
+       }
+       
     }
 
     return (

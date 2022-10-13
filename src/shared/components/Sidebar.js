@@ -7,10 +7,11 @@ import CardTravelOutlinedIcon from '@mui/icons-material/CardTravelOutlined';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 
-import logo from './../../images/logo.png'
+import logo from './../../assets/images/logo.png'
 
 function Sidebar() {
 
+  const test = false
 
   return (
     <div className='h-screen sticky top-0 w-1/5 md:w-1/6'>
@@ -62,8 +63,11 @@ function Sidebar() {
                   </div>
                   <a href='/' className=''>History</a>
               </li>
-
             </ul>
+
+           <div>
+              Darkmode
+           </div> 
         </div>
     </div>
   )
