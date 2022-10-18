@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
+import Ticker from "react-ticker";
 
 const StockTicker = () => {
 
@@ -30,7 +31,7 @@ const StockTicker = () => {
     */ 
    return (
       <div>
-        <span className="text-emerald-500 px-2">PINE +6.79</span>
+        <p>Stock Ticker Placeholder </p>
       </div>
    )
 }

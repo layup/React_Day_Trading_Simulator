@@ -18,7 +18,7 @@ const MainChart = () => {
   const [data, setData] = useState([])
   const [filter, setFilter] = useState('1W')
 
-  let min, max; 
+
 
   const {stockSymbol} = useContext(StockContext);   
 
@@ -61,11 +61,8 @@ const MainChart = () => {
     };
 
     console.log('UPDATING ATTEMPT')  
-
     updateChartData();    
-    let min = Math.min(...data.map(item => item.rest))
-    let result = data.filter(item => item.rest === min)
-    console.log(min)
+
 
     
   }, [stockSymbol, filter]);

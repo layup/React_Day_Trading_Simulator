@@ -1,8 +1,4 @@
 import React, {useEffect, useState, setState, useContext} from 'react'
-import sample_data from './../demo_data/sample_data.csv';
-import MSFT_data from './../demo_data/MSFT.tsv'
-
-
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
@@ -10,11 +6,7 @@ import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 
-
 import MainChart from './components/MainChart';
-
-import * as d3 from 'd3'
-
 import DashboardHeader from './components/DashboardHeader';
 import DashboardFooter from './components/DashboardFooter';
 import StockContext from '../context/StockContext';
@@ -53,7 +45,6 @@ const pieData = [
 ];
 
 
-
 function Dashboard() {
 
     const [barChart, setbarChart] = useState(true);
@@ -69,8 +60,8 @@ function Dashboard() {
                 setStockDetails(result)
             }catch(error) {
                 setStockDetails({})
-                //console.log(error)
-                console.log('error in dashboard 1 ')
+                console.log(error)
+               
             }
         }
         const updateStockOverview = async () => {
@@ -79,8 +70,8 @@ function Dashboard() {
                 setQuote(result)
             }catch(error){
                 setQuote({})
-                //console.log(error)
-                console.log('error in dashboard 2 ')
+                console.log(error)
+                
             }
         };
 
@@ -89,17 +80,17 @@ function Dashboard() {
 
     }, [stockSymbol])
 
-    console.log('DASHBOARD ATTEMPT')
+
     console.log(stockSymbol)
     console.log(stockDetails)
     console.log(quote)
-    console.log('DASHBOARD ATTEMPT END')
+
 
     return (
         <div className=' bg-neutral-200 w-screen h-screen px-4 py-2 grid grid-rows-16 gap-3 grid-cols-5 '>
             <DashboardHeader profile_pic={userInfo.profile_pic} />
 
-            <div className=' rounded-xl text-zinc-800 flex col-span-4 row-span-10'>
+            <div className=' rounded-xl text-zinc-800 col-span-4 row-span-10 flex'>
                 <div className='p-4 w-full bg-white rounded-lg shadow-md'>
                     <div className='flex justify-between  pt-2 pb-6'>
                         <div className='flex flex-col'>
