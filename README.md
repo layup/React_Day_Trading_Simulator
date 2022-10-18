@@ -5,6 +5,8 @@
 > We Create Futures
 
 
+### About 
+
 An application that allows users to simulate real time stock trade without the worry of losing real money
 
 **technology stack**
