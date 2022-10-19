@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { AreaChart, ResponsiveContainer, Area, XAxis, YAxis,Tooltip, CartesianGrid } from 'recharts'
 
-import { portfolioValue } from '../../demo_data/mock'
 import { chartConfig } from '../../utiles/config'
 import { convertUnixTimestampToDate, convertDateToUnixTimestamp, createDate} from '../../utiles/Helper/Helper'
 import { fetchHistoricalData } from '../../utiles/API/stock-api'
@@ -9,13 +8,9 @@ import { fetchHistoricalData } from '../../utiles/API/stock-api'
 import ChartFilter from './ChartFilter'
 import StockContext from '../../context/StockContext'
 
+import { format, parseISO } from "date-fns";
 
-
-import { format, parseISO, subDays } from "date-fns";
-
-
-
-const CustomTooltip = ({ active, payload, label, range}) => {
+const CustomTooltip = ({ active, payload, label}) => {
 
   if (active && payload && payload.length) {
     return (
@@ -29,15 +24,7 @@ const CustomTooltip = ({ active, payload, label, range}) => {
 
   return null;
 };
-
-const MainChart = () => {
-
-  const [data, setData] = useState([])
-  const [filter, setFilter] = useState('1W')
-
-  const {stockSymbol} = useContext(StockContext);   
-
-  const formatData = (data) => {
+const formatData = (data, filter) => {
     return data.c.map((item, index) => {
       return {
         value: item.toFixed(2),
@@ -46,7 +33,14 @@ const MainChart = () => {
         filter:filter
       };
     });
-  };
+};
+
+const PerformanceChart = () => {
+
+  const [data, setData] = useState([])
+  const [filter, setFilter] = useState('1W')
+
+  const {stockSymbol} = useContext(StockContext);   
 
   useEffect(() => {
     const getDateRange = () => {
@@ -70,28 +64,21 @@ const MainChart = () => {
           startTimestampUnix,
           endTimestampUnix
         );
-        //console.log(result)
-        setData(formatData(result));
-        
+        setData(formatData(result, filter));
       } catch (error) {
         setData([]);
         console.log(error);
       }
     };
 
-    console.log('UPDATING ATTEMPT')  
     updateChartData();    
-
-
-    
   }, [stockSymbol, filter]);
-
 
   return (
     <div className='h-96'>
-      <div className='bg-orange-100 flex justify-between '>
-        <h3 className='text-xl'>Holdings Total</h3>
-        <ul className="flex justify-end">
+      <div className=' flex justify-between '>
+
+        <ul className="flex">
         {Object.keys(chartConfig).map((item) => (
           <li key={item}>
             <ChartFilter
@@ -159,7 +146,6 @@ const MainChart = () => {
             typer="number"
             axisLine={false}
             tickLine={false}
-        
             tickFormatter={(number) => `$${number.toFixed(2)}`}
           />
           <CartesianGrid opacity={0.3} vertical={false} />
@@ -169,4 +155,4 @@ const MainChart = () => {
   )
 }
 
-export default MainChart
+export default PerformanceChart

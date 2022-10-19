@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { mockSearchResults } from '../../demo_data/mock'
 
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
@@ -9,8 +8,6 @@ import { searchSymbols } from '../../utiles/API/stock-api';
 
 const Search = () => {
     
-
-
     const [input, setInput] = useState("")
     const [bestMatches, setBestMatches] = useState([])
 
@@ -28,13 +25,10 @@ const Search = () => {
                 });
                 setBestMatches(result)
             }
-
         } catch (error) {
             setBestMatches([])
-            //console.log(error);
-            console.log('Error in Search') 
+            console.log(error) 
        }
-       
     }
 
     return (
@@ -64,9 +58,11 @@ const Search = () => {
 
             }
 
-            {input && bestMatches.length > 0 ? (
-                <SearchResults results={bestMatches}/>
-            ): null}
+            {input && bestMatches.length > 0 ? 
+                (
+                    <SearchResults results={bestMatches}/>
+                ): null
+            }
         </div>
     )
 }

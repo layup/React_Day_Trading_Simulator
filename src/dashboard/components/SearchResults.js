@@ -6,10 +6,10 @@ const SearchResults = ({results}) => {
 
     const {setStockSymbol} = useContext(StockContext);
 
-
     return (
-        <ul className='absolute top-16 w-96 rounded-md h-64 overflow-y-scroll overflow-x-hidden bg-white drop-shadow-md z-40 hover:cursor-pointer'>
-
+        <ul 
+            className='absolute top-16 w-96 rounded-md h-64 overflow-y-scroll overflow-x-hidden bg-white drop-shadow-md z-40 hover:cursor-pointer'
+        >
             {results.map((item) => {
                 return (
                     <li 
@@ -20,8 +20,7 @@ const SearchResults = ({results}) => {
                         }
                     >
                         <span>{item.symbol}</span>
-                        <span>{item.description}</span>
-                        
+                        <span>{item.description}</span>       
                     </li>
                 )
             })}
