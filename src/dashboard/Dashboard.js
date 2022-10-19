@@ -3,19 +3,19 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 
 import MainChart from './components/MainChart';
 import DashboardHeader from './components/DashboardHeader';
 import DashboardFooter from './components/DashboardFooter';
 import StockContext from '../context/StockContext';
 import { fetchQuote, fetchStockDetails } from '../utiles/API/stock-api';
+import Transaction from './components/Transaction';
 
 const userInfo = {
     'username': 'Tommy Layup',
     'profile_pic':'https://images.mubicdn.net/images/cast_member/2184/cache-2992-1547409411/image-w856.jpg?size=120x',
     'balance': 10211.76, 
+    'buyingPower': 2106.20,
     'balancePercentage': 3.32,
     'dailyChange': 211.76, 
 }
@@ -47,7 +47,6 @@ const pieData = [
 
 function Dashboard() {
 
-    const [barChart, setbarChart] = useState(true);
     const {stockSymbol} = useContext(StockContext)
 
     const [stockDetails, setStockDetails] = useState({})
@@ -81,16 +80,16 @@ function Dashboard() {
     }, [stockSymbol])
 
 
-    console.log(stockSymbol)
-    console.log(stockDetails)
-    console.log(quote)
+    //console.log(stockSymbol)
+    //console.log(stockDetails)
+    //console.log(quote)
 
 
     return (
-        <div className=' bg-neutral-200 w-screen h-screen px-4 py-2 grid grid-rows-16 gap-3 grid-cols-5 '>
+        <div className=' bg-neutral-200 w-screen h-screen px-4 py-2 grid grid-rows-16 gap-3 grid-cols-5'>
             <DashboardHeader profile_pic={userInfo.profile_pic} />
 
-            <div className=' rounded-xl text-zinc-800 col-span-4 row-span-10 flex'>
+            <div className=' rounded-xl text-zinc-800 col-span-4 row-span-2 flex'>
                 <div className='p-4 w-full bg-white rounded-lg shadow-md'>
                     <div className='flex justify-between  pt-2 pb-6'>
                         <div className='flex flex-col'>
@@ -98,15 +97,15 @@ function Dashboard() {
                             <p className='text-3xl'>${userInfo.balance.toLocaleString()}</p>
                         </div>
                     </div>    
-
+                    
                     <MainChart/>
                 </div>
             </div>
 
-            <div className='bg-white rounded-lg p-2 shadow-md col-span-1 row-span-10 flex flex-col justify-around '>
-                <div>
+            <div className='bg-white rounded-lg p-2 shadow-md col-span-1 row-span-10 justify-between '>
+                <div className=' '>
                     <div>
-                        <p className='text-sm'>Account Balance</p>
+                        <h5 className='text-sm'>Porfolio Value</h5>
                         <div className='flex'>
                             <h1 className='text-5xl'>${userInfo.balance.toLocaleString()}</h1>
                             {userInfo.balancePercentage > 0 ? 
@@ -126,6 +125,12 @@ function Dashboard() {
                             }
                         </div>
                     </div>
+
+                    <div className='py-2'>
+                        <h5 className='text-sm'>Buying Power</h5>
+                        <h1 className='text-5xl'>${userInfo.buyingPower.toLocaleString()}</h1>
+                    </div>
+
                     <div className='flex justify-between text-center'>
                         <div>
                             <h3 className='text-sm'>Todays Change</h3>
@@ -145,7 +150,8 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-                    <div className=''>
+                    <div className=' py-2'>
+                        < hr/>
                         <PieChart width={300} height={300}>
                             <Pie
                                 margin={{
@@ -176,17 +182,12 @@ function Dashboard() {
                 
             </div>
 
-            <div className='row-span-6 col-span-3 bg-white rounded-xl drop-shadow p-2'>
-                <div>
-                    <h1>Transactions</h1>
-                </div>
+            <div className='row-span-8 col-span-4 bg-white rounded-xl drop-shadow p-2'>
+                <Transaction />
             </div>
 
-            <div className='row-span-6 col-span-2 bg-white rounded-xl drop-shadow p-2'>
-            <div>
-                <h1>News</h1>
-            </div>
-        </div>
+
+
 
             
         </div>

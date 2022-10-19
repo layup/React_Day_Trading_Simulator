@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { AreaChart, ResponsiveContainer, Area, XAxis, YAxis,Tooltip } from 'recharts'
+import { AreaChart, ResponsiveContainer, Area, XAxis, YAxis,Tooltip, CartesianGrid } from 'recharts'
 
 import { portfolioValue } from '../../demo_data/mock'
 import { chartConfig } from '../../utiles/config'
@@ -9,24 +9,41 @@ import { fetchHistoricalData } from '../../utiles/API/stock-api'
 import ChartFilter from './ChartFilter'
 import StockContext from '../../context/StockContext'
 
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined';
 
+
+import { format, parseISO, subDays } from "date-fns";
+
+
+
+const CustomTooltip = ({ active, payload, label, range}) => {
+
+  if (active && payload && payload.length) {
+    return (
+      <div className=" bg-white shadow-md p-2 rounded-xl border-transparent focus:border-current focus:ring-0 ">
+        <p className=''>{`${label}`}</p> 
+        <p className=''>{`Time: ${payload[0].payload.index}`}</p>
+        <p className='text-emerald-700'>{`Value:  ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 const MainChart = () => {
 
   const [data, setData] = useState([])
   const [filter, setFilter] = useState('1W')
 
-
-
   const {stockSymbol} = useContext(StockContext);   
 
   const formatData = (data) => {
     return data.c.map((item, index) => {
       return {
-        value: item.toFixed(3),
+        value: item.toFixed(2),
         date: convertUnixTimestampToDate(data.t[index]),
+        index:index, 
+        filter:filter
       };
     });
   };
@@ -53,7 +70,9 @@ const MainChart = () => {
           startTimestampUnix,
           endTimestampUnix
         );
+        //console.log(result)
         setData(formatData(result));
+        
       } catch (error) {
         setData([]);
         console.log(error);
@@ -69,22 +88,35 @@ const MainChart = () => {
 
 
   return (
-    <div className='h-96 '>
-      <ul className="flex flex-end ">
-      {Object.keys(chartConfig).map((item) => (
-        <li key={item}>
-          <ChartFilter
-            text={item}
-            active={filter === item}
-            onClick={() => {
-              setFilter(item);
-            }}
-          />
-        </li>
-        ))}
-      </ul>
+    <div className='h-96'>
+      <div className='bg-orange-100 flex justify-between '>
+        <h3 className='text-xl'>Holdings Total</h3>
+        <ul className="flex justify-end">
+        {Object.keys(chartConfig).map((item) => (
+          <li key={item}>
+            <ChartFilter
+              text={item}
+              active={filter === item}
+              onClick={() => {
+                setFilter(item);
+              }}
+            />
+          </li>
+          ))}
+        </ul>
+      </div>
       <ResponsiveContainer>
-        <AreaChart data={data} width={730} height={250}>\
+        <AreaChart 
+          data={data} 
+          width="100%" 
+          height={250}           
+          margin={{
+            top: 16,
+            right: 16,
+            bottom: 0,
+            left: 24
+          }}
+        >\
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
@@ -92,7 +124,7 @@ const MainChart = () => {
             </linearGradient>
           </defs>
           <Area 
-            type='temperature' 
+            type='natural' 
             dataKey="value"
             stroke="#15803d" 
             fillOpacity={1}
@@ -100,9 +132,37 @@ const MainChart = () => {
             fill="url(#colorUv)"
            
           />
-          <Tooltip />
-          <XAxis dataKey={"date"}/>
-          <YAxis domain={['dataMin' , 'dataMax']}  />
+          <Tooltip content={<CustomTooltip range={data.length} index={data.index} cursor={false}/>} />
+          <XAxis 
+            dataKey={"date"}
+            axisLine={false}
+            tickLine={false}
+            tickFormatter={(str) => {
+              const date = parseISO(str);
+              
+              if(filter === '5Y' && date.getDate() % 1 === 0){
+                return format(date, "yyyy")
+              }
+
+              if (date.getDate() % 1 === 0) {
+                return format(date, "MMM d");
+              }
+              
+              return "";
+            }}
+            minTickGap={30}
+        
+          />
+          <YAxis 
+            domain={['auto' , 'auto']} 
+            unit={'$'} 
+            typer="number"
+            axisLine={false}
+            tickLine={false}
+        
+            tickFormatter={(number) => `$${number.toFixed(2)}`}
+          />
+          <CartesianGrid opacity={0.3} vertical={false} />
         </AreaChart>
       </ResponsiveContainer>
     </div>

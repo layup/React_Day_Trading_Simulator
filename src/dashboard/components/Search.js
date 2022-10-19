@@ -54,6 +54,7 @@ const Search = () => {
                     if(event.key === 'Enter'){
                         updateBestMaches(); 
                     }
+
                 }}
             /> 
             {input &&

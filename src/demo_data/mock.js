@@ -33,6 +33,20 @@ export const mockSearchResults = {
     ]
 }
 
+export const mockHoldings = {
+  "count": 4, 
+  "result": [
+    {
+      "description": "Apple Inc",  
+      "symbol": "APPL", 
+      "lastPrice":250.2 , 
+      "equity": 521.43 ,  
+      "todayReturn": 8.30,  
+      "totalReturn": 60.22, 
+    }
+  ]
+}
+
 export const mockCompanyDetails = {
     "country": "US",
     "currency": "USD",

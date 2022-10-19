@@ -23,7 +23,7 @@ module.exports = {
         'span-9': 'span 9 ',
         'span-10': 'span 10 ',
         'span-12': 'span 12'
-      }
+      },
     },
   },
   plugins: [
