@@ -21,6 +21,7 @@ const Portfolio = () => {
                 console.log(error)
             }
         }
+
         const updateStockOverview = async () => {
             try {
                 const result = await fetchQuote(stockSymbol);
@@ -37,7 +38,7 @@ const Portfolio = () => {
 
     }, [stockSymbol])
 
-    console.log(stockDetails, quote)
+    //console.log(stockDetails, quote)
 
 
     return (
@@ -66,9 +67,34 @@ const Portfolio = () => {
                     <PerformanceChart /> 
                     <hr className='border-b-2 py-10'/>
                     <div className='p-2 flex  '>
-                        <div className='bg-orange-200 w-full h-80'>
-                            <h2>Stats</h2>
-                            <p>Test</p>
+                        <div className='bg-orange-200 w-full h-80 '>
+                            <h2 className='text-2xl font-bold'>Stats</h2>
+                            <div className='flex '>
+                                <table className=' child:uppercase text-left [&>tr>th]:font-normal'>
+                                    <tr>
+                                        <th>Open</th>
+                                        <td>{quote.o}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>High</th>
+                                        <td>{quote.h}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Low</th>
+                                        <td>{quote.l}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>52 Wk High</th>
+                                        <td>{quote.l}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>52 Wk Low</th>
+                                        <td>{quote.l}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
                         </div>
                         <div className='w-full h-80 bg-orange-400'>
                             <h2>About</h2>

@@ -38,7 +38,7 @@ const formatData = (data, filter) => {
 const PerformanceChart = () => {
 
   const [data, setData] = useState([])
-  const [filter, setFilter] = useState('1W')
+  const [filter, setFilter] = useState('1D')
 
   const {stockSymbol} = useContext(StockContext);   
 
@@ -116,6 +116,7 @@ const PerformanceChart = () => {
             stroke="#15803d" 
             fillOpacity={1}
             strokeWidth={0.5}
+            
             fill="url(#colorUv)"
            
           />
@@ -123,6 +124,7 @@ const PerformanceChart = () => {
           <XAxis 
             dataKey={"date"}
             axisLine={false}
+            hide={true}
             tickLine={false}
             tickFormatter={(str) => {
               const date = parseISO(str);
