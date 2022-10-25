@@ -5,18 +5,18 @@ import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined
 
 const Overview = ({userInfo}) => {
     return (
-        <div className=''>
+        <div className='w-full h-full '>
             <div>
                 <h5 className='text-sm'>Porfolio Value</h5>
                 <div className='flex'>
-                    <h1 className='text-5xl'>${userInfo.balance.toLocaleString()}</h1>
+                    <h1 className='text-3xl lg:text-5xl'>${userInfo.balance.toLocaleString()}</h1>
                     {userInfo.balancePercentage > 0 ? 
-                        <div className='flex bg-green-300 h-fit px-1 rounded-lg text-center child:text-green-600 bg-opacity-50'>
+                        <div className=' text-xs flex bg-green-300 h-fit items-center marker:pr-1 rounded-lg text-center child:text-green-600 bg-opacity-50  '>
                             <ArrowDropUpOutlinedIcon/>
                             <p>{userInfo.balancePercentage}%</p>
                         </div>
                         : 
-                        <div className='flex h-fit px-1 rounded-lg text-center child:text-red-600 bg-opacity-50'>
+                        <div className='text-xs flex items-center h-fit px-1 rounded-lg text-center child:text-red-600 bg-opacity-50'>
                             <ArrowDropDownOutlinedIcon/>
                             <p>{Math.abs(userInfo.balancePercentage)}%</p>
                         </div>
@@ -26,7 +26,7 @@ const Overview = ({userInfo}) => {
 
             <div className='py-2'>
                 <h5 className='text-sm'>Buying Power</h5>
-                <h1 className='text-5xl'>${userInfo.buyingPower.toLocaleString()}</h1>
+                <h1 className='text-3xl lg:text-5xl'>${userInfo.buyingPower.toLocaleString()}</h1>
             </div>
 
             <div className='flex justify-between text-center'>

@@ -62,9 +62,9 @@ const HoldingItems = (props) => {
   }, [props.lastChange])
 
   return (
-    <tr className='border-y-2'>      
+    <tr className='border-y-2 text-xs lg:text-base '>      
         <td>
-            <p className=''><span className='font-semibold pr-2'>{props.ticker}</span>({props.name})</p>
+            <p className=''><span className='font-semibold pr-2'>{props.ticker}</span></p>
         </td>
         <td>$250</td>
         <td>
@@ -76,7 +76,7 @@ const HoldingItems = (props) => {
         <td>521.43</td>
         <td>+8.30</td>
         <td>+60.22</td>
-        <td className=' h-full'>
+        <td className=' h-10 w-10'>
             <ResponsiveContainer>
                 <AreaChart           
                     data={data}

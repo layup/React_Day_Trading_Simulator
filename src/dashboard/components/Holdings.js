@@ -26,7 +26,7 @@ const Holdings = (props) => {
     }
 
     return (
-        <div className='h-full px-4'>
+        <div className='h-full w-full px- lg:px-4 overflow-y-auto'>
             <div className='flex justify-between py-2'>
                 <h1 className='text-xl'>{`Your Holdings (${mockHoldings.count})`}</h1>
                 <div className=''>
@@ -49,9 +49,9 @@ const Holdings = (props) => {
                 </div>
             </div>
 
-            <table class="table-fixed  w-full max-h-max overflow-y-scroll">
+            <table class="table-fixed w-full relative max-h-max">
                 <thead className=''>
-                    <tr className='[&>th]:text-start [&>th]:font-normal [&>th]:text-zinc-500'>
+                    <tr className='text-xs md:[&>th]:text-base [&>th]:text-start [&>th]:font-normal [&>th]:text-zinc-500'>
                         <th>Symbol</th>
                         <th>Last Price</th>
                         <th>Change</th>
@@ -61,7 +61,7 @@ const Holdings = (props) => {
                         <th>7-Day Chart</th>
                     </tr>
                 </thead>
-                <tbody className='h-14'>
+                <tbody className=''>
                     <HoldingItems ticker={mockCompanyDetails.ticker} name={mockCompanyDetails.name} lastChange={6.5} />
                     <HoldingItems ticker={mockCompanyDetails.ticker} name={mockCompanyDetails.name} lastChange={-6.5} />
                 </tbody>

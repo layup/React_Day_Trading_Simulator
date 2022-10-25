@@ -8,7 +8,7 @@ const SearchResults = ({results}) => {
 
     return (
         <ul 
-            className='absolute top-16 w-96 rounded-md h-64 overflow-y-scroll overflow-x-hidden bg-white drop-shadow-md z-40 hover:cursor-pointer'
+            className='absolute top-32 lg:top-24 w-96 rounded-md h-64 overflow-y-scroll overflow-x-hidden bg-white drop-shadow-md z-40 hover:cursor-pointer'
         >
             {results.map((item) => {
                 return (

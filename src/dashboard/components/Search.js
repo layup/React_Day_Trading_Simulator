@@ -32,7 +32,7 @@ const Search = () => {
     }
 
     return (
-        <div className='flex text-zinc-600 shadow rounded-lg w-96' >
+        <div className='flex text-zinc-600 shadow rounded-lg w-full' >
             <button className='bg-white rounded-l-lg p-2 ' onClick={updateBestMaches} >
                 <SearchOutlinedIcon className=''/>
             </button>

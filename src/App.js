@@ -26,7 +26,7 @@ function App() {
          <div className="flex flex-col lg:flex-row font-poppins bg-neutral-200 "> 
           <Sidebar />
             <Routes>
-              <Route path="/" element={<DashboardLayout/>} />        
+              <Route path="/" element={<Dashboard/>} />        
               <Route path="/portfolio" element={<Portfolio/>} />      
               <Route
                 path="*"

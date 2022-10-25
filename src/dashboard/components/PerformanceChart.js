@@ -75,10 +75,10 @@ const PerformanceChart = () => {
   }, [stockSymbol, filter]);
 
   return (
-    <div className='h-96'>
+    <div className='h-full w-full p-4'>
       <div className=' flex justify-between '>
-        <h3 className='text-xl'>Investment Perforance</h3>
-        <ul className="flex justify-end">
+        <h3 className='hidden sm:block text-xl'>Investment Perforance</h3>
+        <ul className="flex justify-end ">
         {Object.keys(chartConfig).map((item) => (
           <li key={item}>
             <ChartFilter
@@ -96,13 +96,8 @@ const PerformanceChart = () => {
         <AreaChart 
           data={data} 
           width="100%" 
-          height={250}           
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24
-          }}
+                     
+
         >\
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -147,6 +142,7 @@ const PerformanceChart = () => {
             axisLine={false}
             tickLine={false}
             tickFormatter={(number) => `$${number.toFixed(2)}`}
+            hide={true}
           />
           <CartesianGrid opacity={0.3} vertical={false} />
         </AreaChart>

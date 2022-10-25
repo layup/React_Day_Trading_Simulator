@@ -53,24 +53,21 @@ function Dashboard() {
 
 
     return (
-        <div className=' bg-neutral-200 w-screen h-screen px-4 py-2 grid grid-rows-16 gap-3 grid-cols-5'>
+        <div className=' bg-neutral-300 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 grid-rows-8 gap-4 p-3 lg:p-4 max-w-screen lg:w-screen h-screen  mt-16 md:ml-16 md:mt-0 lg:ml-52 xl:ml-64 auto-rows-fr'>
             <DashboardHeader profile_pic={userInfo.profile_pic} />
 
-            <div className=' rounded-xl text-zinc-800 col-span-4 row-span-2 flex '>
-                <div className='p-4 w-full bg-white rounded-lg shadow-md'>
+            <div className=' rounded-xl text-zinc-800 col-span-1 md:col-span-2 xl:col-span-3 row-span-5'>
+                <div className='p-4 w-full h-full bg-white rounded-lg shadow-md'>
                     <PerformanceChart/>
                 </div>
             </div>
 
-            <div className='bg-white rounded-lg p-2 shadow-md col-span-1 row-span-1 justify-between '>
+            <div className='bg-white rounded-lg p-2 shadow-md col-span-1 row-span-5 xl:row-span-7  '>
                 <Overview userInfo={userInfo} />              
             </div>
 
-            <div className='row-span-9 col-span-1 bg-white rounded-xl drop-shadow p-2'>
-                <p>Related News</p>
-            </div> 
 
-            <div className='row-span-8 col-span-4 bg-white rounded-xl drop-shadow p-2'>
+            <div className='col-span-1 md:col-span-3 row-span-3 xl:row-span-2 bg-white rounded-xl drop-shadow p-2 '>
                 <Holdings />
             </div>
         </div>
